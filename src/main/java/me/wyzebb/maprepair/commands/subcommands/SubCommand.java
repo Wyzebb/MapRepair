@@ -1,4 +1,4 @@
-package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
+package me.wyzebb.maprepair.commands.subcommands;
 
 import org.bukkit.command.CommandSender;
 
