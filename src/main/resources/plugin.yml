@@ -1,0 +1,6 @@
+name: MapRepair
+version: '0.1.0'
+main: me.wyzebb.mapRepair.MapRepair
+api-version: '1.21'
+authors: [ Wyzebb ]
+description: A simple plugin to reset your minigame maps
