@@ -1,16 +1,12 @@
-package me.wyzebb.playerviewdistancecontroller.commands;
+package me.wyzebb.maprepair.commands;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
-import me.wyzebb.playerviewdistancecontroller.commands.subcommands.ReloadCommand;
-import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SetCommand;
-import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SetOnlineCommand;
-import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SubCommand;
-import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
-import org.bukkit.Bukkit;
+import me.wyzebb.maprepair.MapRepair;
+import me.wyzebb.maprepair.commands.subcommands.ResetCommand;
+import me.wyzebb.maprepair.commands.subcommands.SubCommand;
+import me.wyzebb.maprepair.utility.SendHelpMsgUtility;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,13 +16,11 @@ import java.util.List;
 public class CommandManager implements TabExecutor {
 
     private final ArrayList<SubCommand> subcommands = new ArrayList<>();
-    private final PlayerViewDistanceController plugin;
+    private final MapRepair plugin;
 
-    public CommandManager(PlayerViewDistanceController plugin){
+    public CommandManager(MapRepair plugin){
         this.plugin = plugin;
-        subcommands.add(new SetCommand(plugin));
-        subcommands.add(new SetOnlineCommand(plugin));
-        subcommands.add(new ReloadCommand(plugin));
+        subcommands.add(new ResetCommand(plugin));
     }
 
     @Override
@@ -57,19 +51,7 @@ public class CommandManager implements TabExecutor {
             }
 
             return suggestions;
-        } else if (args.length == 2) {
-            return new ArrayList<>() {};
-        } else if (args.length == 3 && args[0].equals("set")) {
-            ArrayList<String> playerNames = new ArrayList<>();
-            Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().toArray().length];
-            Bukkit.getServer().getOnlinePlayers().toArray(players);
-
-            for (Player player : players) {
-                playerNames.add(player.getName());
-            }
-
-            return playerNames;
-        } else if (args.length == 3) {
+        } else if (args.length >= 2) {
             return new ArrayList<>() {};
         }
 
