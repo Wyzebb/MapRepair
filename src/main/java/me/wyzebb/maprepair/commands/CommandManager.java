@@ -1,7 +1,7 @@
 package me.wyzebb.maprepair.commands;
 
 import me.wyzebb.maprepair.MapRepair;
-import me.wyzebb.maprepair.commands.subcommands.ResetCommand;
+import me.wyzebb.maprepair.commands.subcommands.RepairCommand;
 import me.wyzebb.maprepair.commands.subcommands.SubCommand;
 import me.wyzebb.maprepair.utility.SendHelpMsgUtility;
 import org.bukkit.command.Command;
@@ -20,17 +20,20 @@ public class CommandManager implements TabExecutor {
 
     public CommandManager(MapRepair plugin){
         this.plugin = plugin;
-        subcommands.add(new ResetCommand(plugin));
+        // Ensure the RepairCommand is initialized with the plugin instance
+        subcommands.add(new RepairCommand(plugin));
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
         if (args.length > 0){
-            for (int i = 0; i < getSubcommands().size(); i++){
-                if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())) {
-                    getSubcommands().get(i).performCommand(commandSender, args);
+            for (SubCommand subcommand : getSubcommands()) {
+                if (args[0].equalsIgnoreCase(subcommand.getName())) {
+                    subcommand.performCommand(commandSender, args);
+                    return true; // Exit after finding the command
                 }
             }
+            SendHelpMsgUtility.sendHelpMessage(commandSender, plugin);
         } else {
             SendHelpMsgUtility.sendHelpMessage(commandSender, plugin);
         }
@@ -45,16 +48,13 @@ public class CommandManager implements TabExecutor {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
         if (args.length == 1) {
             ArrayList<String> suggestions = new ArrayList<>();
-
-            for (int i = 0; i < getSubcommands().size(); i++){
-                suggestions.add(getSubcommands().get(i).getName());
+            for (SubCommand subcommand : getSubcommands()) {
+                suggestions.add(subcommand.getName());
             }
-
             return suggestions;
         } else if (args.length >= 2) {
-            return new ArrayList<>() {};
+            return new ArrayList<>(); // Empty list for further arguments
         }
-
-        return new ArrayList<>() {};
+        return new ArrayList<>();
     }
 }
