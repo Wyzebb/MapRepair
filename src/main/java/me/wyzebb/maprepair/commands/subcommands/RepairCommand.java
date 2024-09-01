@@ -2,9 +2,11 @@ package me.wyzebb.maprepair.commands.subcommands;
 
 import me.wyzebb.maprepair.MapRepair;
 import me.wyzebb.maprepair.utility.BlockDataHandler;
+import me.wyzebb.maprepair.utility.LanguageManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -13,10 +15,12 @@ public class RepairCommand extends SubCommand {
 
     private final MapRepair plugin;
     private final BlockDataHandler blockDataHandler;
+    private final LanguageManager languageManager;
 
     public RepairCommand(MapRepair plugin) {
         this.plugin = plugin;
         this.blockDataHandler = plugin.getBlockDataHandler(); // Access the BlockDataHandler instance
+        this.languageManager = plugin.getLanguageManager(); new LanguageManager(plugin);
     }
 
     @Override
@@ -41,7 +45,8 @@ public class RepairCommand extends SubCommand {
         }
 
         else if (commandSender instanceof Player) {
-            commandSender.sendMessage("Repair command received! Restoring blocks...");
+            FileConfiguration langConfig = languageManager.getLanguageFile();
+            commandSender.sendMessage(langConfig.getString("messages.restoring", "Message key not found."));
 
             // Iterate through each world stored in blockDataHandler
             for (Map.Entry<String, Map<String, String>> worldEntry : blockDataHandler.getAllBlockData().entrySet()) {
