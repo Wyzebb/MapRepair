@@ -1,6 +1,13 @@
 name: MapRepair
-version: '0.1.0'
+version: '0.2.0'
 main: me.wyzebb.maprepair.MapRepair
 api-version: '1.21'
 authors: [ Wyzebb ]
 description: A simple plugin to reset your minigame maps!
+
+commands:
+  maprepair:
+    aliases:
+      - mr
+    description: Base command for the Map Repair plugin
+    usage: /mr <subcommand>
