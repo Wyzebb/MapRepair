@@ -41,14 +41,6 @@ public class BlockDataHandler {
         worldMap.put(locKey, data);
     }
 
-    public String loadBlockData(Location location) {
-        String worldName = location.getWorld().getName();
-        String locKey = locationToString(location);
-
-        // Load the block data from the in-memory map
-        return blockData.containsKey(worldName) ? blockData.get(worldName).get(locKey) : null;
-    }
-
     private void saveAllData(File dataFolder) {
         for (String worldName : blockData.keySet()) {
             File worldFolder = new File(dataFolder, worldName);
