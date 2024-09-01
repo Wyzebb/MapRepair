@@ -38,7 +38,6 @@ public class RepairCommand extends SubCommand {
     public void performCommand(CommandSender commandSender, String[] args) {
         if (blockDataHandler == null) {
             commandSender.sendMessage("BlockDataHandler is not initialized!");
-            return;
         }
 
         else if (commandSender instanceof Player) {
