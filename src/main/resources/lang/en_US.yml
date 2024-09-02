@@ -1,2 +1,3 @@
 messages:
-  restoring: "Repair command received! Restoring blocks..."
+  restoring: "Restoring blocks..."
+  restored: "World has been repaired"
