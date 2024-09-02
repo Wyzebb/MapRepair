@@ -4,7 +4,7 @@ messages:
   error: "An unknown error occurred!"
   player-cmd: "This command can only be run by a player!"
   nothing-to-repair: "There are no blocks to repair in this world!"
-  mapset-success: "The current world will now repair to this state!"
+  setmap-success: "The current world will now repair to this state!"
 
 commands:
   repair-cmd:
