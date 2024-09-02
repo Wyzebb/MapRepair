@@ -3,6 +3,7 @@ package me.wyzebb.maprepair.commands.subcommands;
 import me.wyzebb.maprepair.MapRepair;
 import me.wyzebb.maprepair.utility.BlockDataHandler;
 import me.wyzebb.maprepair.utility.LanguageManager;
+import me.wyzebb.maprepair.utility.ProcessConfigMessagesUtility;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -15,12 +16,10 @@ public class RepairCommand extends SubCommand {
 
     private final MapRepair plugin;
     private final BlockDataHandler blockDataHandler;
-    private final LanguageManager languageManager;
 
     public RepairCommand(MapRepair plugin) {
         this.plugin = plugin;
-        this.blockDataHandler = plugin.getBlockDataHandler(); // Access the BlockDataHandler instance
-        this.languageManager = plugin.getLanguageManager(); new LanguageManager(plugin);
+        this.blockDataHandler = plugin.getBlockDataHandler();
     }
 
     @Override
@@ -44,9 +43,8 @@ public class RepairCommand extends SubCommand {
             commandSender.sendMessage("BlockDataHandler is not initialized!");
         }
 
-        else if (commandSender instanceof Player) {
-            FileConfiguration langConfig = languageManager.getLanguageFile();
-            commandSender.sendMessage(langConfig.getString("messages.restoring", "Message key not found."));
+        else {
+            ProcessConfigMessagesUtility.processMessage("messages.restoring", commandSender);
 
             // Iterate through each world stored in blockDataHandler
             for (Map.Entry<String, Map<String, String>> worldEntry : blockDataHandler.getAllBlockData().entrySet()) {
@@ -70,7 +68,7 @@ public class RepairCommand extends SubCommand {
                 }
             }
 
-            commandSender.sendMessage("All saved blocks have been restored.");
+            ProcessConfigMessagesUtility.processMessage("messages.restored", commandSender);
         }
 
     }
