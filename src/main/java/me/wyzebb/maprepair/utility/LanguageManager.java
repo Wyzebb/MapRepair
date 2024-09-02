@@ -26,29 +26,25 @@ public class LanguageManager {
 
     private void loadConfig() {
         FileConfiguration config = plugin.getConfig();
-        defaultLanguage = config.getString("language", "en_US"); // Default to "en_US" if not set
+        defaultLanguage = config.getString("language", "en_US"); // Defaults to "en_US" if not set
     }
 
     private void copyDefaultLanguages() {
-        String[] defaultLanguages = {"en_US.yml", "fr_FR.yml"}; // List all default languages you provide
+        String[] langs = {"en_US.yml", "ru_RU.yml"}; // List of all languages provided
 
         File languagesFolder = new File(plugin.getDataFolder(), "lang");
         if (!languagesFolder.exists()) {
             languagesFolder.mkdirs();
         }
 
-        for (String langFileName : defaultLanguages) {
+        for (String langFileName : langs) {
             File langFile = new File(languagesFolder, langFileName);
             if (!langFile.exists()) {
                 try (InputStream in = plugin.getResource("lang/" + langFileName)) { // Assuming you put your lang files in src/main/resources/lang/
                     if (in != null) {
                         Files.copy(in, langFile.toPath());
-                        plugin.getLogger().info("Copied default language file: " + langFileName);
-                    } else {
-                        plugin.getLogger().warning("Language file not found in JAR: " + langFileName);
                     }
                 } catch (IOException e) {
-                    plugin.getLogger().severe("Failed to copy language file: " + langFileName);
                     e.printStackTrace();
                 }
             }
