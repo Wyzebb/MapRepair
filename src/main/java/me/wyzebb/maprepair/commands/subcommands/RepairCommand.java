@@ -44,12 +44,11 @@ public class RepairCommand extends SubCommand {
             ProcessConfigMessagesUtility.processMessage("messages.error", commandSender, true);
             return;
         }
-        if (!(commandSender instanceof Player)) {
+        if (!(commandSender instanceof Player player)) {
             ProcessConfigMessagesUtility.processMessage("messages.player-cmd", commandSender, true);
             return;
         }
 
-        Player player = (Player) commandSender;
         String playerWorldName = player.getWorld().getName();
 
         ProcessConfigMessagesUtility.processMessage("messages.repairing", commandSender, false);
@@ -61,7 +60,7 @@ public class RepairCommand extends SubCommand {
             return;
         }
 
-        // Iterate through each block's saved location and data
+        // Iterate through every block's saved location and data
         for (Map.Entry<String, String> blockEntry : blockMap.entrySet()) {
             String locKey = blockEntry.getKey();
             String blockType = blockEntry.getValue();
@@ -73,7 +72,7 @@ public class RepairCommand extends SubCommand {
                 location.getBlock().setType(material);
             }
         }
-        // After the loop, clear all the data for the world
+
         blockDataHandler.clearWorldData(playerWorldName);
 
         ProcessConfigMessagesUtility.processMessage("messages.repaired", commandSender, false);
@@ -91,7 +90,7 @@ public class RepairCommand extends SubCommand {
             int z = Integer.parseInt(parts[2]);
             return new Location(plugin.getServer().getWorld(worldName), x, y, z);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            plugin.getLogger().warning(languageManager.getLanguageFile().getString("messages.error"));
             return null;
         }
     }
