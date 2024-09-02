@@ -2,12 +2,12 @@ name: MapRepair
 version: '0.4.0'
 main: me.wyzebb.maprepair.MapRepair
 api-version: '1.21'
-authors: [ Wyzebb ]
-description: A simple plugin to reset your minigame maps!
+author: Wyzebb
+description: A simple plugin to repair blocks changes to your worlds - great for minigame maps!
 
 commands:
   maprepair:
     aliases:
       - mr
-    description: Base command for the Map Repair plugin
-    usage: /mr <subcommand>
+    description: Map Repair plugin base command - run /maprepair for more information!
+    usage: /maprepair <subcommand>
