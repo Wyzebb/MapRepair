@@ -18,19 +18,17 @@ public final class MapRepair extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Plugin started!");
 
-        // Config
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
 
         languageManager = new LanguageManager(this);
 
-        // Initialize BlockDataHandler
         blockDataHandler = new BlockDataHandler(this);
         blockDataHandler.setupServerStartData();
 
-        // Register join and leave events
         getServer().getPluginManager().registerEvents(new BreakBlockEvent(this), this);
         getServer().getPluginManager().registerEvents(new PlaceBlockEvent(this), this);
+
         CommandManager commandManager = new CommandManager(this);
         Objects.requireNonNull(getCommand("maprepair")).setExecutor(commandManager);
         Objects.requireNonNull(getCommand("maprepair")).setTabCompleter(commandManager);
@@ -38,8 +36,7 @@ public final class MapRepair extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
-        blockDataHandler.serverShut();
+        blockDataHandler.saveAllData(getDataFolder());
     }
 
     public BlockDataHandler getBlockDataHandler() {
