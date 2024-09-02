@@ -1,7 +1,7 @@
 name: MapRepair
-version: '0.4.0'
+version: '0.5.0'
 main: me.wyzebb.maprepair.MapRepair
-api-version: '1.21'
+api-version: '1.17'
 author: Wyzebb
 description: A simple plugin to repair blocks changes to your worlds - great for minigame maps!
 
@@ -11,3 +11,4 @@ commands:
       - mr
     description: Map Repair plugin base command - run /maprepair for more information!
     usage: /maprepair <subcommand>
+    permission: maprepair.command
