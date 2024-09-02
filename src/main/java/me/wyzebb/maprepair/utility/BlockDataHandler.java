@@ -8,14 +8,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class BlockDataHandler {
     private Map<String, Map<String, String>> blockData;
 
     private final MapRepair plugin;
+    private final LanguageManager languageManager;
 
     public BlockDataHandler(MapRepair plugin) {
         this.plugin = plugin;
+        this.languageManager = plugin.getLanguageManager();
     }
 
     public void setupServerStartData() {
@@ -23,12 +26,9 @@ public class BlockDataHandler {
         loadAllData(plugin.getDataFolder());
     }
 
-    public void serverShut() {
-        saveAllData(plugin.getDataFolder());
-    }
-
     public void saveBlockData(Location location, String data) {
-        String worldName = location.getWorld().getName();
+        // Get information for saving block data
+        String worldName = Objects.requireNonNull(location.getWorld()).getName();
         String locKey = locationToString(location);
 
         // Handle the map initialisation
@@ -39,7 +39,7 @@ public class BlockDataHandler {
         worldMap.put(locKey, data);
     }
 
-    private void saveAllData(File dataFolder) {
+    public void saveAllData(File dataFolder) {
         File worldsFolder = new File(dataFolder, "worlds");
         if (!worldsFolder.exists()) {
             worldsFolder.mkdirs();
@@ -56,7 +56,7 @@ public class BlockDataHandler {
             try {
                 config.save(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                plugin.getLogger().warning(languageManager.getLanguageFile().getString("error"));
             }
         }
     }
@@ -65,14 +65,14 @@ public class BlockDataHandler {
         File worldsFolder = new File(dataFolder, "worlds");
         if (!worldsFolder.exists()) return;
 
-        for (File worldFile : worldsFolder.listFiles()) {
+        for (File worldFile : Objects.requireNonNull(worldsFolder.listFiles())) {
             if (worldFile.isFile() && worldFile.getName().endsWith(".yml")) {
                 String worldName = worldFile.getName().replace(".yml", "");
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(worldFile);
 
                 Map<String, String> worldData = new HashMap<>();
                 if (config.contains("blocks")) {
-                    for (String key : config.getConfigurationSection("blocks").getKeys(false)) {
+                    for (String key : Objects.requireNonNull(config.getConfigurationSection("blocks")).getKeys(false)) {
                         worldData.put(key, config.getString("blocks." + key));
                     }
                     blockData.put(worldName, worldData);
@@ -87,7 +87,6 @@ public class BlockDataHandler {
                 location.getBlockZ();
     }
 
-    // Method to remove all block data for a world
     public void clearWorldData(String worldName) {
         blockData.remove(worldName);
 
@@ -96,12 +95,10 @@ public class BlockDataHandler {
         File file = new File(worldsFolder, worldName + ".yml");
 
         if (file.exists()) {
-            file.delete();  // Deletes the file
+            file.delete();
         }
     }
 
-
-    // Add this method to expose blockData
     public Map<String, Map<String, String>> getAllBlockData() {
         return blockData;
     }

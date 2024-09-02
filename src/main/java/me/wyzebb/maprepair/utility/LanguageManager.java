@@ -30,22 +30,22 @@ public class LanguageManager {
     }
 
     private void copyDefaultLanguages() {
-        String[] langs = {"en_US.yml", "ru_RU.yml"}; // List of all languages provided
+        String[] languages = {"en_US.yml", "ru_RU.yml"}; // List of all languages provided
 
         File languagesFolder = new File(plugin.getDataFolder(), "lang");
         if (!languagesFolder.exists()) {
             languagesFolder.mkdirs();
         }
 
-        for (String langFileName : langs) {
+        for (String langFileName : languages) {
             File langFile = new File(languagesFolder, langFileName);
             if (!langFile.exists()) {
-                try (InputStream in = plugin.getResource("lang/" + langFileName)) { // Assuming you put your lang files in src/main/resources/lang/
+                try (InputStream in = plugin.getResource("lang/" + langFileName)) { // Assuming lang files are put in lang folder
                     if (in != null) {
                         Files.copy(in, langFile.toPath());
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    plugin.getLogger().warning(getLanguageFile().getString("error"));
                 }
             }
         }
