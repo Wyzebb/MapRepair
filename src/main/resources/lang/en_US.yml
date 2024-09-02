@@ -1,3 +1,17 @@
 messages:
-  restoring: "Restoring blocks in your current world..."
-  restored: "World has been repaired"
+  repairing: "Repairing blocks in your current world..."
+  repaired: "World has been repaired!"
+  error: "An unknown error occurred!"
+  player-cmd: "This command can only be run by a player!"
+  nothing-to-repair: "There are no blocks to repair in this world!"
+  mapset-success: "The current world will now repair to this state!"
+
+commands:
+  repair-cmd:
+    name: "repair"
+    description: "Repairs the world you are in!"
+    usage: "/maprepair repair"
+  setmap-cmd:
+    name: "setmap"
+    description: "Sets the current world to how it should be when it is repaired! Execute this command after editing your map."
+    usage: "/maprepair setmap"
