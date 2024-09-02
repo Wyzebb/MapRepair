@@ -10,12 +10,10 @@ import org.bukkit.entity.Player;
 
 public class SetmapCommand extends SubCommand {
 
-    private final MapRepair plugin;
     private final BlockDataHandler blockDataHandler;
     private final LanguageManager languageManager;
 
     public SetmapCommand(MapRepair plugin) {
-        this.plugin = plugin;
         this.blockDataHandler = plugin.getBlockDataHandler();
         this.languageManager = plugin.getLanguageManager();
     }
