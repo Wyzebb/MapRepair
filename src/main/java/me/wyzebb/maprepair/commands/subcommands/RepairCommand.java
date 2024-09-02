@@ -2,12 +2,10 @@ package me.wyzebb.maprepair.commands.subcommands;
 
 import me.wyzebb.maprepair.MapRepair;
 import me.wyzebb.maprepair.utility.BlockDataHandler;
-import me.wyzebb.maprepair.utility.LanguageManager;
 import me.wyzebb.maprepair.utility.ProcessConfigMessagesUtility;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -41,36 +39,41 @@ public class RepairCommand extends SubCommand {
     public void performCommand(CommandSender commandSender, String[] args) {
         if (blockDataHandler == null) {
             commandSender.sendMessage("BlockDataHandler is not initialized!");
+            return;
+        }
+        if (!(commandSender instanceof Player)) {
+            commandSender.sendMessage("This command can only be run by a player!");
+            return;
         }
 
-        else {
-            ProcessConfigMessagesUtility.processMessage("messages.restoring", commandSender);
+        Player player = (Player) commandSender;
+        String playerWorldName = player.getWorld().getName();
 
-            // Iterate through each world stored in blockDataHandler
-            for (Map.Entry<String, Map<String, String>> worldEntry : blockDataHandler.getAllBlockData().entrySet()) {
-                String worldName = worldEntry.getKey();
-                Map<String, String> blockMap = worldEntry.getValue();
+        ProcessConfigMessagesUtility.processMessage("messages.restoring", commandSender);
 
-                // Iterate through each block's saved location and data
-                for (Map.Entry<String, String> blockEntry : blockMap.entrySet()) {
-                    String locKey = blockEntry.getKey();
-                    String blockType = blockEntry.getValue();
+        Map<String, String> blockMap = blockDataHandler.getAllBlockData().get(playerWorldName);
 
-                    // Convert the location string back to a Location object
-                    Location location = stringToLocation(worldName, locKey);
+        if (blockMap == null || blockMap.isEmpty()) {
+            player.sendMessage("No data to repair in this world.");
+            return;
+        }
 
-                    // Convert the block type string back to Material
-                    Material material = Material.getMaterial(blockType);
+        // Iterate through each block's saved location and data
+        for (Map.Entry<String, String> blockEntry : blockMap.entrySet()) {
+            String locKey = blockEntry.getKey();
+            String blockType = blockEntry.getValue();
 
-                    if (location != null && material != null) {
-                        location.getBlock().setType(material);
-                    }
-                }
+            Location location = stringToLocation(playerWorldName, locKey);
+            Material material = Material.getMaterial(blockType);
+
+            if (location != null && material != null) {
+                location.getBlock().setType(material);
             }
-
-            ProcessConfigMessagesUtility.processMessage("messages.restored", commandSender);
         }
+        // After the loop, clear all the data for the world
+        blockDataHandler.clearWorldData(playerWorldName);
 
+        ProcessConfigMessagesUtility.processMessage("messages.restored", commandSender);
     }
 
     private Location stringToLocation(String worldName, String locKey) {

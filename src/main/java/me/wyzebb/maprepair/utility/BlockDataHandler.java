@@ -31,10 +31,8 @@ public class BlockDataHandler {
         String worldName = location.getWorld().getName();
         String locKey = locationToString(location);
 
-        // Handle the map initialization
-        if (!blockData.containsKey(worldName)) {
-            blockData.put(worldName, new HashMap<>());
-        }
+        // Handle the map initialisation
+        blockData.computeIfAbsent(worldName, k -> new HashMap<>());
 
         // Save the block data
         Map<String, String> worldMap = blockData.get(worldName);
@@ -42,13 +40,13 @@ public class BlockDataHandler {
     }
 
     private void saveAllData(File dataFolder) {
-        for (String worldName : blockData.keySet()) {
-            File worldFolder = new File(dataFolder, worldName);
-            if (!worldFolder.exists()) {
-                worldFolder.mkdirs();
-            }
+        File worldsFolder = new File(dataFolder, "worlds");
+        if (!worldsFolder.exists()) {
+            worldsFolder.mkdirs();
+        }
 
-            File file = new File(worldFolder, "blocks.yml");
+        for (String worldName : blockData.keySet()) {
+            File file = new File(worldsFolder, worldName + ".yml");
             YamlConfiguration config = new YamlConfiguration();
 
             for (Map.Entry<String, String> entry : blockData.get(worldName).entrySet()) {
@@ -64,19 +62,20 @@ public class BlockDataHandler {
     }
 
     private void loadAllData(File dataFolder) {
-        if (!dataFolder.exists()) return;
+        File worldsFolder = new File(dataFolder, "worlds");
+        if (!worldsFolder.exists()) return;
 
-        for (File worldFolder : dataFolder.listFiles()) {
-            if (worldFolder.isDirectory()) {
-                File file = new File(worldFolder, "blocks.yml");
-                if (file.exists()) {
-                    YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+        for (File worldFile : worldsFolder.listFiles()) {
+            if (worldFile.isFile() && worldFile.getName().endsWith(".yml")) {
+                String worldName = worldFile.getName().replace(".yml", "");
+                YamlConfiguration config = YamlConfiguration.loadConfiguration(worldFile);
 
-                    Map<String, String> worldData = new HashMap<>();
+                Map<String, String> worldData = new HashMap<>();
+                if (config.contains("blocks")) {
                     for (String key : config.getConfigurationSection("blocks").getKeys(false)) {
                         worldData.put(key, config.getString("blocks." + key));
                     }
-                    blockData.put(worldFolder.getName(), worldData);
+                    blockData.put(worldName, worldData);
                 }
             }
         }
@@ -87,6 +86,20 @@ public class BlockDataHandler {
                 location.getBlockY() + "_" +
                 location.getBlockZ();
     }
+
+    // Method to remove all block data for a world
+    public void clearWorldData(String worldName) {
+        blockData.remove(worldName);
+
+        // Also clear the data from the corresponding YAML file
+        File worldsFolder = new File(plugin.getDataFolder(), "worlds");
+        File file = new File(worldsFolder, worldName + ".yml");
+
+        if (file.exists()) {
+            file.delete();  // Deletes the file
+        }
+    }
+
 
     // Add this method to expose blockData
     public Map<String, Map<String, String>> getAllBlockData() {
