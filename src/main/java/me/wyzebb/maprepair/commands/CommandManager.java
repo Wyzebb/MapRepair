@@ -2,6 +2,7 @@ package me.wyzebb.maprepair.commands;
 
 import me.wyzebb.maprepair.MapRepair;
 import me.wyzebb.maprepair.commands.subcommands.RepairCommand;
+import me.wyzebb.maprepair.commands.subcommands.SetmapCommand;
 import me.wyzebb.maprepair.commands.subcommands.SubCommand;
 import me.wyzebb.maprepair.utility.SendHelpMsgUtility;
 import org.bukkit.command.Command;
@@ -22,6 +23,7 @@ public class CommandManager implements TabExecutor {
         this.plugin = plugin;
         // Ensure the RepairCommand is initialized with the plugin instance
         subcommands.add(new RepairCommand(plugin));
+        subcommands.add(new SetmapCommand(plugin));
     }
 
     @Override
