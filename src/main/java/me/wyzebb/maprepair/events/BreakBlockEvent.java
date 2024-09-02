@@ -31,5 +31,4 @@ public class BreakBlockEvent implements Listener {
             plugin.getLogger().warning(languageManager.getLanguageFile().getString("error"));
         }
     }
-
 }

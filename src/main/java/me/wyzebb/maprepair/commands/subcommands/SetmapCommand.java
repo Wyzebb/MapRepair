@@ -45,9 +45,8 @@ public class SetmapCommand extends SubCommand {
         }
 
         String playerWorldName = player.getWorld().getName();
-
         blockDataHandler.clearWorldData(playerWorldName);
 
-        ProcessConfigMessagesUtility.processMessage("messages.mapset-success", commandSender, false);
+        ProcessConfigMessagesUtility.processMessage("messages.setmap-success", commandSender, false);
     }
 }
