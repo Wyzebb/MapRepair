@@ -2,6 +2,7 @@ package me.wyzebb.maprepair.commands.subcommands;
 
 import me.wyzebb.maprepair.MapRepair;
 import me.wyzebb.maprepair.utility.BlockDataHandler;
+import me.wyzebb.maprepair.utility.LanguageManager;
 import me.wyzebb.maprepair.utility.ProcessConfigMessagesUtility;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,45 +12,44 @@ public class SetmapCommand extends SubCommand {
 
     private final MapRepair plugin;
     private final BlockDataHandler blockDataHandler;
+    private final LanguageManager languageManager;
 
     public SetmapCommand(MapRepair plugin) {
         this.plugin = plugin;
         this.blockDataHandler = plugin.getBlockDataHandler();
+        this.languageManager = plugin.getLanguageManager();
     }
 
     @Override
     public String getName() {
-        return "setmap";
+        return languageManager.getLanguageFile().getString("commands.setmap-cmd.name");
     }
 
     @Override
     public String getDescription() {
-        return "Sets the current world as your desired map. This is what it will repair to (execute this command after editing your map)";
+        return languageManager.getLanguageFile().getString("commands.setmap-cmd.description");
     }
 
     @Override
-    public String getSyntax() {
-        return "/maprepair setmap";
+    public String getUsage() {
+        return languageManager.getLanguageFile().getString("commands.setmap-cmd.usage");
     }
 
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (blockDataHandler == null) {
-            commandSender.sendMessage("BlockDataHandler is not initialized!");
+            ProcessConfigMessagesUtility.processMessage("messages.error", commandSender, true);
             return;
         }
         if (!(commandSender instanceof Player player)) {
-            commandSender.sendMessage("This command can only be run by a player!");
+            ProcessConfigMessagesUtility.processMessage("messages.player-cmd", commandSender, true);
             return;
         }
 
         String playerWorldName = player.getWorld().getName();
 
-        ProcessConfigMessagesUtility.processMessage("messages.restoring", commandSender);
-
-        // After the loop, clear all the data for the world
         blockDataHandler.clearWorldData(playerWorldName);
 
-        ProcessConfigMessagesUtility.processMessage("messages.restored", commandSender);
+        ProcessConfigMessagesUtility.processMessage("messages.mapset-success", commandSender, false);
     }
 }

@@ -2,6 +2,7 @@ package me.wyzebb.maprepair.commands.subcommands;
 
 import me.wyzebb.maprepair.MapRepair;
 import me.wyzebb.maprepair.utility.BlockDataHandler;
+import me.wyzebb.maprepair.utility.LanguageManager;
 import me.wyzebb.maprepair.utility.ProcessConfigMessagesUtility;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,47 +15,49 @@ public class RepairCommand extends SubCommand {
 
     private final MapRepair plugin;
     private final BlockDataHandler blockDataHandler;
+    private final LanguageManager languageManager;
 
     public RepairCommand(MapRepair plugin) {
         this.plugin = plugin;
         this.blockDataHandler = plugin.getBlockDataHandler();
+        this.languageManager = plugin.getLanguageManager();
     }
 
     @Override
     public String getName() {
-        return "repair";
+        return languageManager.getLanguageFile().getString("commands.repair-cmd.name");
     }
 
     @Override
     public String getDescription() {
-        return "Repair the map";
+        return languageManager.getLanguageFile().getString("commands.repair-cmd.description");
     }
 
     @Override
-    public String getSyntax() {
-        return "/maprepair repair";
+    public String getUsage() {
+        return languageManager.getLanguageFile().getString("commands.repair-cmd.usage");
     }
 
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (blockDataHandler == null) {
-            commandSender.sendMessage("BlockDataHandler is not initialized!");
+            ProcessConfigMessagesUtility.processMessage("messages.error", commandSender, true);
             return;
         }
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage("This command can only be run by a player!");
+            ProcessConfigMessagesUtility.processMessage("messages.player-cmd", commandSender, true);
             return;
         }
 
         Player player = (Player) commandSender;
         String playerWorldName = player.getWorld().getName();
 
-        ProcessConfigMessagesUtility.processMessage("messages.restoring", commandSender);
+        ProcessConfigMessagesUtility.processMessage("messages.repairing", commandSender, false);
 
         Map<String, String> blockMap = blockDataHandler.getAllBlockData().get(playerWorldName);
 
         if (blockMap == null || blockMap.isEmpty()) {
-            player.sendMessage("No data to repair in this world.");
+            ProcessConfigMessagesUtility.processMessage("messages.nothing-to-repair", player, true);
             return;
         }
 
@@ -73,7 +76,7 @@ public class RepairCommand extends SubCommand {
         // After the loop, clear all the data for the world
         blockDataHandler.clearWorldData(playerWorldName);
 
-        ProcessConfigMessagesUtility.processMessage("messages.restored", commandSender);
+        ProcessConfigMessagesUtility.processMessage("messages.repaired", commandSender, false);
     }
 
     private Location stringToLocation(String worldName, String locKey) {
