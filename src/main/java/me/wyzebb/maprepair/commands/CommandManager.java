@@ -21,7 +21,7 @@ public class CommandManager implements TabExecutor {
 
     public CommandManager(MapRepair plugin){
         this.plugin = plugin;
-        // Ensure the RepairCommand is initialized with the plugin instance
+
         subcommands.add(new RepairCommand(plugin));
         subcommands.add(new SetmapCommand(plugin));
     }
@@ -54,8 +54,6 @@ public class CommandManager implements TabExecutor {
                 suggestions.add(subcommand.getName());
             }
             return suggestions;
-        } else if (args.length >= 2) {
-            return new ArrayList<>(); // Empty list for further arguments
         }
         return new ArrayList<>();
     }
