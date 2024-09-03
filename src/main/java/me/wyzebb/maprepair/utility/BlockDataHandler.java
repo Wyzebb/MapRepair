@@ -34,9 +34,11 @@ public class BlockDataHandler {
         // Handle the map initialisation
         blockData.computeIfAbsent(worldName, k -> new HashMap<>());
 
-        // Save the block data
+        // Save the block data if it does not already exist
         Map<String, String> worldMap = blockData.get(worldName);
-        worldMap.put(locKey, data);
+        if (!worldMap.containsKey(locKey)) {
+            worldMap.put(locKey, data);
+        }
     }
 
     public void saveAllData(File dataFolder) {
