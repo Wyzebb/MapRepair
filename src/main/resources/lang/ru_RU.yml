@@ -8,10 +8,6 @@ messages:
 
 commands:
   repair-cmd:
-    name: "repair"
     description: "Восстанавливает мир, в которым вы находитесь!"
-    usage: "/maprepair repair"
   setmap-cmd:
-    name: "setmap"
     description: "Устанавливает текущий мир таким, каким он должен быть после восстановления! Напишите эту команду после изменения вашей карты."
-    usage: "/maprepair setmap"
