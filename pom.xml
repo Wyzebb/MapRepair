@@ -6,7 +6,7 @@
 
     <groupId>me.wyzebb</groupId>
     <artifactId>MapRepair</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.2</version>
     <packaging>jar</packaging>
 
     <name>MapRepair</name>
