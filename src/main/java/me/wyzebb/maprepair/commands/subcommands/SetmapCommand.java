@@ -20,7 +20,7 @@ public class SetmapCommand extends SubCommand {
 
     @Override
     public String getName() {
-        return languageManager.getLanguageFile().getString("commands.setmap-cmd.name");
+        return "setmap";
     }
 
     @Override
@@ -30,7 +30,7 @@ public class SetmapCommand extends SubCommand {
 
     @Override
     public String getUsage() {
-        return languageManager.getLanguageFile().getString("commands.setmap-cmd.usage");
+        return "/maprepair setmap";
     }
 
     @Override

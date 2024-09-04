@@ -8,10 +8,6 @@ messages:
 
 commands:
   repair-cmd:
-    name: "repair"
     description: "Repairs the world you are in!"
-    usage: "/maprepair repair"
   setmap-cmd:
-    name: "setmap"
     description: "Sets the current world to how it should be when it is repaired! Execute this command after editing your map."
-    usage: "/maprepair setmap"

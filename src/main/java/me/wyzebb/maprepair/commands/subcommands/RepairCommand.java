@@ -25,7 +25,7 @@ public class RepairCommand extends SubCommand {
 
     @Override
     public String getName() {
-        return languageManager.getLanguageFile().getString("commands.repair-cmd.name");
+        return "repair";
     }
 
     @Override
@@ -35,7 +35,7 @@ public class RepairCommand extends SubCommand {
 
     @Override
     public String getUsage() {
-        return languageManager.getLanguageFile().getString("commands.repair-cmd.usage");
+        return "/maprepair repair";
     }
 
     @Override
