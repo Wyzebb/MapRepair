@@ -4,8 +4,9 @@ import me.wyzebb.maprepair.MapRepair;
 import me.wyzebb.maprepair.utility.BlockDataHandler;
 import me.wyzebb.maprepair.utility.LanguageManager;
 import me.wyzebb.maprepair.utility.ProcessConfigMessagesUtility;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -63,13 +64,13 @@ public class RepairCommand extends SubCommand {
         // Iterate through every block's saved location and data
         for (Map.Entry<String, String> blockEntry : blockMap.entrySet()) {
             String locKey = blockEntry.getKey();
-            String blockType = blockEntry.getValue();
+            String blockDataAsString = blockEntry.getValue();
 
             Location location = stringToLocation(playerWorldName, locKey);
-            Material material = Material.getMaterial(blockType);
+            BlockData blockData = Bukkit.createBlockData(blockDataAsString);
 
-            if (location != null && material != null) {
-                location.getBlock().setType(material);
+            if (location != null) {
+                location.getBlock().setBlockData(blockData);
             }
         }
 
