@@ -1,5 +1,5 @@
 name: MapRepair
-version: '0.5.2'
+version: '0.6.0'
 main: me.wyzebb.maprepair.MapRepair
 api-version: '1.17'
 author: Wyzebb
@@ -9,6 +9,6 @@ commands:
   maprepair:
     aliases:
       - mr
-    description: Map Repair plugin base command - run /maprepair for more information!
+    description: Run /maprepair for subcommand information!
     usage: /maprepair <subcommand>
     permission: maprepair.command
