@@ -1,8 +1,7 @@
 package me.wyzebb.maprepair;
 
 import me.wyzebb.maprepair.commands.CommandManager;
-import me.wyzebb.maprepair.events.BreakBlockEvent;
-import me.wyzebb.maprepair.events.PlaceBlockEvent;
+import me.wyzebb.maprepair.events.*;
 import me.wyzebb.maprepair.utility.BlockDataHandler;
 import me.wyzebb.maprepair.utility.LanguageManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,8 +25,20 @@ public final class MapRepair extends JavaPlugin {
         blockDataHandler = new BlockDataHandler(this);
         blockDataHandler.setupServerStartData();
 
-        getServer().getPluginManager().registerEvents(new BreakBlockEvent(this), this);
-        getServer().getPluginManager().registerEvents(new PlaceBlockEvent(this), this);
+        getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(this), this);
+        getServer().getPluginManager().registerEvents(new BlockBurnListener(this), this);
+        getServer().getPluginManager().registerEvents(new LeavesDecayListener(this), this);
+        getServer().getPluginManager().registerEvents(new ExplosionListener(this), this);
+        getServer().getPluginManager().registerEvents(new FadeBlockListener(this), this);
+        getServer().getPluginManager().registerEvents(new BlockFertiliseListener(this), this);
+        getServer().getPluginManager().registerEvents(new LavaCastListener(this), this);
+        getServer().getPluginManager().registerEvents(new FluidListener(this), this);
+        getServer().getPluginManager().registerEvents(new BlockGrowListener(this), this);
+        getServer().getPluginManager().registerEvents(new BlockIgniteListener(this), this);
+        getServer().getPluginManager().registerEvents(new TNTPrimeListener(this), this);
+        getServer().getPluginManager().registerEvents(new FireSpreadListener(this), this);
+        getServer().getPluginManager().registerEvents(new BucketListener(this), this);
 
         CommandManager commandManager = new CommandManager(this);
         Objects.requireNonNull(getCommand("maprepair")).setExecutor(commandManager);
