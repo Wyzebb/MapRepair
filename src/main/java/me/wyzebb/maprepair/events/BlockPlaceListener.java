@@ -8,13 +8,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class PlaceBlockEvent implements Listener {
+public class BlockPlaceListener implements Listener {
 
     private final BlockDataHandler blockDataHandler;
     private final MapRepair plugin;
     private final LanguageManager languageManager;
 
-    public PlaceBlockEvent(MapRepair plugin) {
+    public BlockPlaceListener(MapRepair plugin) {
         this.blockDataHandler = plugin.getBlockDataHandler();
         this.plugin = plugin;
         this.languageManager = plugin.getLanguageManager();
@@ -23,10 +23,9 @@ public class PlaceBlockEvent implements Listener {
     @EventHandler
     private void onBlockPlace(BlockPlaceEvent e) {
         final Location loc = e.getBlock().getLocation();
-        final String blockMaterial = e.getBlockReplacedState().getType().toString();
 
         if (blockDataHandler != null) {
-            blockDataHandler.saveBlockData(loc, blockMaterial);
+            blockDataHandler.saveBlockData(loc, e.getBlockReplacedState().getBlockData());
         } else {
             plugin.getLogger().warning(languageManager.getLanguageFile().getString("error"));
         }

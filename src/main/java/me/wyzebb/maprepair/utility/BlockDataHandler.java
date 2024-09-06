@@ -2,6 +2,7 @@ package me.wyzebb.maprepair.utility;
 
 import me.wyzebb.maprepair.MapRepair;
 import org.bukkit.Location;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -26,18 +27,21 @@ public class BlockDataHandler {
         loadAllData(plugin.getDataFolder());
     }
 
-    public void saveBlockData(Location location, String data) {
+    public void saveBlockData(Location location, BlockData specificBlockData) {
         // Get information for saving block data
         String worldName = Objects.requireNonNull(location.getWorld()).getName();
         String locKey = locationToString(location);
 
-        // Handle the map initialisation
+        // Get BlockData as a string
+        String blockDataString = specificBlockData.getAsString();  // Serialize BlockData
+
+        // Handle the map initialization
         blockData.computeIfAbsent(worldName, k -> new HashMap<>());
 
-        // Save the block data if it does not already exist
+        // Save the block data, including BlockData string, if it does not already exist
         Map<String, String> worldMap = blockData.get(worldName);
         if (!worldMap.containsKey(locKey)) {
-            worldMap.put(locKey, data);
+            worldMap.put(locKey, blockDataString);  // Store the full BlockData as string
         }
     }
 
@@ -75,7 +79,8 @@ public class BlockDataHandler {
                 Map<String, String> worldData = new HashMap<>();
                 if (config.contains("blocks")) {
                     for (String key : Objects.requireNonNull(config.getConfigurationSection("blocks")).getKeys(false)) {
-                        worldData.put(key, config.getString("blocks." + key));
+                        String blockDataString = config.getString("blocks." + key);
+                        worldData.put(key, blockDataString);
                     }
                     blockData.put(worldName, worldData);
                 }

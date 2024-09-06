@@ -8,13 +8,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-public class BreakBlockEvent implements Listener {
+public class BlockBreakListener implements Listener {
 
     private final BlockDataHandler blockDataHandler;
     private final MapRepair plugin;
     private final LanguageManager languageManager;
 
-    public BreakBlockEvent(MapRepair plugin) {
+    public BlockBreakListener(MapRepair plugin) {
         this.plugin = plugin;
         this.blockDataHandler = plugin.getBlockDataHandler();
         this.languageManager = plugin.getLanguageManager();
@@ -23,10 +23,9 @@ public class BreakBlockEvent implements Listener {
     @EventHandler
     private void onBlockBreak(BlockBreakEvent e) {
         final Location loc = e.getBlock().getLocation();
-        final String blockMaterial = e.getBlock().getType().toString();
 
         if (blockDataHandler != null) {
-            blockDataHandler.saveBlockData(loc, blockMaterial);
+            blockDataHandler.saveBlockData(loc, e.getBlock().getBlockData());
         } else {
             plugin.getLogger().warning(languageManager.getLanguageFile().getString("error"));
         }
