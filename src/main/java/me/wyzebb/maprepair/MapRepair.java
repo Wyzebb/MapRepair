@@ -32,7 +32,7 @@ public final class MapRepair extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ExplosionListener(this), this);
         getServer().getPluginManager().registerEvents(new FadeBlockListener(this), this);
         getServer().getPluginManager().registerEvents(new BlockFertiliseListener(this), this);
-        getServer().getPluginManager().registerEvents(new LavaCastListener(this), this);
+        getServer().getPluginManager().registerEvents(new LavacastListener(this), this);
         getServer().getPluginManager().registerEvents(new FluidListener(this), this);
         getServer().getPluginManager().registerEvents(new BlockGrowListener(this), this);
         getServer().getPluginManager().registerEvents(new BlockIgniteListener(this), this);

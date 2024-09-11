@@ -8,13 +8,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFormEvent;
 
-public class LavaCastListener implements Listener {
+public class LavacastListener implements Listener {
 
     private final BlockDataHandler blockDataHandler;
     private final MapRepair plugin;
     private final LanguageManager languageManager;
 
-    public LavaCastListener(MapRepair plugin) {
+    public LavacastListener(MapRepair plugin) {
         this.blockDataHandler = plugin.getBlockDataHandler();
         this.plugin = plugin;
         this.languageManager = plugin.getLanguageManager();
