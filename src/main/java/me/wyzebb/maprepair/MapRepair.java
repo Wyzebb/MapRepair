@@ -39,6 +39,7 @@ public final class MapRepair extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TNTPrimeListener(this), this);
         getServer().getPluginManager().registerEvents(new FireSpreadListener(this), this);
         getServer().getPluginManager().registerEvents(new BucketListener(this), this);
+        getServer().getPluginManager().registerEvents(new BlockPhysicsListener(this), this);
 
         CommandManager commandManager = new CommandManager(this);
         Objects.requireNonNull(getCommand("maprepair")).setExecutor(commandManager);
