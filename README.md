@@ -10,17 +10,17 @@ This is a simple plugin that repairs block changes to your worlds - great for mi
 <br/>Unlike other plugins, this plugin only repairs the blocks that have changed, reducing lag drastically!<br/>
 
 ## **Features**
-- Repair subcommand which reverts all broken, placed and replaced blocks
-- Setmap command which can be executed after editing a world to make it return to that state when repairing
+- Repair subcommand which reverts most changes made to blocks (full list below), in a performance friendly way
+- Setmap command which can be executed after editing a world to make it return to that state after the next repair
 - World-independent tracking: the plugin repairs the world the player is in
 - Multi-language system
 - Configurable in plugin.yml
-- Lots of events that are tracked for repairs
 - Repair data saves across server restarts
 
 ## **What it repairs**
 - Broken blocks
 - Placed blocks
+- Blockstate information, such as rotation
 - Lavacasts
 - Explosions from TNT, end crystals, creepers and beds
 - Water and lava (source blocks and flowing blocks)
@@ -29,9 +29,9 @@ This is a simple plugin that repairs block changes to your worlds - great for mi
 - Leaves that may decay
 - Blocks melting
 - Fire burning out
-- Blocks fertilised by bonemeal
+- Blocks fertilised by bone meal
 - Fire spreading
-- Crops grown by bonemeal
+- Crops grown by bone meal
 
 _If you need anything else to be tracked, open an issue on the GitHub page!_
 
