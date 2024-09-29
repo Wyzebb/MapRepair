@@ -40,16 +40,23 @@ public class LanguageManager {
         for (String langFileName : languages) {
             File langFile = new File(languagesFolder, langFileName);
             if (!langFile.exists()) {
-                try (InputStream in = plugin.getResource("lang/" + langFileName)) { // Assuming lang files are put in lang folder
+                try (InputStream in = plugin.getResource("lang/" + langFileName)) {
                     if (in != null) {
                         Files.copy(in, langFile.toPath());
+                        plugin.getLogger().info(langFileName + " successfully copied to lang folder.");
+                    } else {
+                        plugin.getLogger().warning("Resource file not found: " + langFileName);
                     }
                 } catch (IOException e) {
-                    plugin.getLogger().warning(getLanguageFile().getString("error"));
+                    plugin.getLogger().warning("Failed to copy language file: " + langFileName);
+                    e.printStackTrace();
                 }
+            } else {
+                plugin.getLogger().info(langFileName + " already exists, skipping copy.");
             }
         }
     }
+
 
     private void loadLanguages() {
         File languagesFolder = new File(plugin.getDataFolder(), "lang");
