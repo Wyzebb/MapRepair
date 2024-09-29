@@ -4,8 +4,8 @@ import me.wyzebb.maprepair.commands.CommandManager;
 import me.wyzebb.maprepair.events.*;
 import me.wyzebb.maprepair.utility.BlockDataHandler;
 import me.wyzebb.maprepair.utility.LanguageManager;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.Objects;
 
 public final class MapRepair extends JavaPlugin {
@@ -17,10 +17,7 @@ public final class MapRepair extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Plugin started!");
 
-        saveDefaultConfig();
-        getConfig().options().copyDefaults(true);
-
-        languageManager = new LanguageManager(this);
+        reloadConfig();
 
         blockDataHandler = new BlockDataHandler(this);
         blockDataHandler.setupServerStartData();
@@ -57,5 +54,17 @@ public final class MapRepair extends JavaPlugin {
 
     public LanguageManager getLanguageManager() {
         return languageManager;
+    }
+
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
+
+        saveDefaultConfig();
+        FileConfiguration config = getConfig();
+        config.options().copyDefaults(true);
+        saveConfig();
+
+        languageManager = new LanguageManager(this);
     }
 }

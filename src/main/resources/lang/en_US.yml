@@ -5,8 +5,11 @@ messages:
   player-cmd: "This command can only be run by a player!"
   nothing-to-repair: "There are no blocks to repair in this world!"
   setmap-success: "The current world will now repair to this state!"
+  reload-success: "The MapRepair config files have been reloaded!"
 
 commands:
+  reload-cmd:
+    description: "Reloads the plugin config files."
   repair-cmd:
     description: "Repairs the world you are in!"
   setmap-cmd:

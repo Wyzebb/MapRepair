@@ -1,6 +1,7 @@
 package me.wyzebb.maprepair.commands;
 
 import me.wyzebb.maprepair.MapRepair;
+import me.wyzebb.maprepair.commands.subcommands.ReloadCommand;
 import me.wyzebb.maprepair.commands.subcommands.RepairCommand;
 import me.wyzebb.maprepair.commands.subcommands.SetmapCommand;
 import me.wyzebb.maprepair.commands.subcommands.SubCommand;
@@ -24,6 +25,7 @@ public class CommandManager implements TabExecutor {
 
         subcommands.add(new RepairCommand(plugin));
         subcommands.add(new SetmapCommand(plugin));
+        subcommands.add(new ReloadCommand(plugin));
     }
 
     @Override
