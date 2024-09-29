@@ -1,3 +1,4 @@
 language: en_US
 color: "§e§l(!) §e"
 error-color: "§c§l(!) §c"
+success-color: "§a§l(!) §a"

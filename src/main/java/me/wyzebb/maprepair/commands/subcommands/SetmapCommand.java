@@ -36,17 +36,17 @@ public class SetmapCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (blockDataHandler == null) {
-            ProcessConfigMessagesUtility.processMessage("messages.error", commandSender, true);
+            ProcessConfigMessagesUtility.processMessage("messages.error", commandSender, 1);
             return;
         }
         if (!(commandSender instanceof Player player)) {
-            ProcessConfigMessagesUtility.processMessage("messages.player-cmd", commandSender, true);
+            ProcessConfigMessagesUtility.processMessage("messages.player-cmd", commandSender, 1);
             return;
         }
 
         String playerWorldName = player.getWorld().getName();
         blockDataHandler.clearWorldData(playerWorldName);
 
-        ProcessConfigMessagesUtility.processMessage("messages.setmap-success", commandSender, false);
+        ProcessConfigMessagesUtility.processMessage("messages.setmap-success", commandSender, 2);
     }
 }

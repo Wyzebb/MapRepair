@@ -42,22 +42,22 @@ public class RepairCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (blockDataHandler == null) {
-            ProcessConfigMessagesUtility.processMessage("messages.error", commandSender, true);
+            ProcessConfigMessagesUtility.processMessage("messages.error", commandSender, 1);
             return;
         }
         if (!(commandSender instanceof Player player)) {
-            ProcessConfigMessagesUtility.processMessage("messages.player-cmd", commandSender, true);
+            ProcessConfigMessagesUtility.processMessage("messages.player-cmd", commandSender, 1);
             return;
         }
 
         String playerWorldName = player.getWorld().getName();
 
-        ProcessConfigMessagesUtility.processMessage("messages.repairing", commandSender, false);
+        ProcessConfigMessagesUtility.processMessage("messages.repairing", commandSender, 0);
 
         Map<String, String> blockMap = blockDataHandler.getAllBlockData().get(playerWorldName);
 
         if (blockMap == null || blockMap.isEmpty()) {
-            ProcessConfigMessagesUtility.processMessage("messages.nothing-to-repair", player, true);
+            ProcessConfigMessagesUtility.processMessage("messages.nothing-to-repair", player, 1);
             return;
         }
 
@@ -76,7 +76,7 @@ public class RepairCommand extends SubCommand {
 
         blockDataHandler.clearWorldData(playerWorldName);
 
-        ProcessConfigMessagesUtility.processMessage("messages.repaired", commandSender, false);
+        ProcessConfigMessagesUtility.processMessage("messages.repaired", commandSender, 2);
     }
 
     private Location stringToLocation(String worldName, String locKey) {
