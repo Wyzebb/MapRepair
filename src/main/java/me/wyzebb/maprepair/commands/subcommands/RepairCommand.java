@@ -70,7 +70,7 @@ public class RepairCommand extends SubCommand {
             BlockData blockData = Bukkit.createBlockData(blockDataAsString);
 
             if (location != null) {
-                location.getBlock().setBlockData(blockData);
+                location.getBlock().setBlockData(blockData, false);
             }
         }
 
